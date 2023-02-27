@@ -56,8 +56,9 @@ const load = async () => {
 }
 
 const success = () => {
-    masteryMap[letter.toUpperCase()] += 1;
-    if (masteryMap[letter.toUpperCase()] > masteryCount - 1) { masteredCard() }
+    let successLetter = letter.toUpperCase();
+    if (masteryMap[successLetter] === masteryCount) masteredCard()
+    masteryMap[successLetter] += 1;
     letter = "?";
     document.getElementById('reference-image').style.backgroundColor = '#62ae4e';
     document.getElementById('img').style.opacity = 0;
@@ -72,19 +73,19 @@ const success = () => {
         }
         letter = deck[Math.floor(Math.random() * deck.length)];
         time = Date.now();
-        if (masteryMap[letter.toUpperCase()] < masteryCount) { // Show the next letter
+        if (masteryMap[successLetter] < masteryCount) { // Show the next letter
             document.getElementById('img').src = `/images/${letter}.png`;
-            document.getElementById('overlay-text').innerText = letter.toUpperCase();
-        } else {
+            document.getElementById('overlay-text').innerText = successLetter;
+        } else if (masteryMap[successLetter] === masteryCount) {
             document.getElementById('img').src = `/images/blank.png`;
             document.getElementById('reference-image').style.backgroundColor = '#eee';
-            document.getElementById('overlay-text').innerText = letter.toUpperCase();
-        }
+            document.getElementById('overlay-text').innerText = successLetter;
+        } else alert("AAAAA");
     }, 1000);
 }
 
 const fail = () => {
-    if (masteryMap[letter.toUpperCase()] > 0) { masteryMap[letter.toUpperCase()] -= 1; }
+    if (masteryMap[letter.toUpperCase()] > 0) masteryMap[letter.toUpperCase()] -= 1;
     letter = "?";
     document.getElementById('bg-text').innerText = "✗";
     document.getElementById('reference-image').style.backgroundColor = '#a72b2b';
