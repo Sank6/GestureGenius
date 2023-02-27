@@ -61,11 +61,15 @@ const load = async () => {
             document.getElementById('prediction').innerText = gesture;
         }
         img.dispose();
-
         
         if (document.getElementById('prediction').innerText === letter.toUpperCase()) {
-            letter = letters[Math.floor(Math.random() * letters.length)];
-            document.getElementById('img').src = `/images/${letter}.png`;
+            letter = "";
+            document.getElementById('img').style.opacity = 0;
+            setTimeout(() => {
+                document.getElementById('img').style.opacity = 1;
+                letter = letters[Math.floor(Math.random() * letters.length)];
+                document.getElementById('img').src = `/images/${letter}.png`;
+            }, 1000);
         }
 
         await tf.nextFrame();

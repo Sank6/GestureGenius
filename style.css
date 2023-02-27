@@ -78,6 +78,18 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   overflow: hidden;
+  background-color: #03fc45;
+}
+
+#reference-image .bg-text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(2);
+  z-index: 1;
+  -ms-transform: translate(-50%, -50%);
 }
 
 #reference-image img {
@@ -85,6 +97,9 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 1;
+  z-index: 4;
+  transition: 200ms ease all;
 }
 
 .button {
