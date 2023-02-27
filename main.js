@@ -15,8 +15,8 @@ const masteryMap = {
     'J': 0, 'K': 0, 'L': 0, 'M': 0, 'N': 0, 'O': 0, 'P': 0, 'Q': 0, 'R': 0, 'S': 0,
     'T': 0, 'U': 0, 'V': 0, 'W': 0, 'X': 0, 'Y': 0, 'Z': 0
 };
-
 const masteryCount = 2;
+let roundTime = 10; // second
 
 const load = async () => {
     navigator.mediaDevices.getUserMedia({ video: true })
@@ -44,9 +44,9 @@ const load = async () => {
             const flatLandmarks = [].concat(...landmarks)
             const gesture = await predictGesture(aslModel, flatLandmarks);
             document.getElementById('prediction').innerText = gesture;
-            if (gesture === letter.toUpperCase() && Date.now() - time > 500)
+            if (gesture === letter.toUpperCase() && Date.now() - time > 1500)
                 success();
-            else if (Date.now() - time > 10000)
+            else if (Date.now() - time > (roundTime * 1000))
                 fail();
         }
         img.dispose();
@@ -63,13 +63,15 @@ const success = () => {
     document.getElementById('img').style.opacity = 0;
     document.getElementById('bg-text').innerText = "✓";
     time = Date.now();
+    console.log(masteryMap);
     setTimeout(() => {
         document.getElementById('img').style.opacity = 1;
         const deck = [];
         for (let i = 0; i < 26; i++) {
-            for (let j = masteryMap[letters[i].toUpperCase()]; j < masteryCount; j++) deck.push(letters[i]);
+            for (let j = masteryMap[letters[i].toUpperCase()]; j <= masteryCount; j++) deck.push(letters[i]);
         }
         letter = deck[Math.floor(Math.random() * deck.length)];
+        time = Date.now();
         if (masteryMap[letter.toUpperCase()] < masteryCount) { // Show the next letter
             document.getElementById('img').src = `/images/${letter}.png`;
             document.getElementById('overlay-text').innerText = letter.toUpperCase();
@@ -93,13 +95,14 @@ const fail = () => {
         letter = letters[Math.floor(Math.random() * letters.length)];
         document.getElementById('img').src = `/images/${letter}.png`;
         document.getElementById('overlay-text').innerText = letter.toUpperCase();
+        time = Date.now();
     }, 1000);
 }
 
 let masteredCount = 0;
 const masteredCard = () => {
     masteredCount ++;
-    document.getElementById('mastered-images-container').innerHTML += `<img src="/images/${letter}.png" class="mastered-image" style="top: calc(40% - ${masteredCount * 5}px)">`;
+    document.getElementById('mastered-images-container').innerHTML += `<img src="/images/${letter}.png" class="mastered-image" style="top: calc(65% - ${masteredCount * 5}px)">`;
 }
 
 const predictGesture = async (model, hand) => {
@@ -110,7 +113,8 @@ const predictGesture = async (model, hand) => {
 }
 
 const timer = () => {
-    let t = ((Date.now() - time)) / 100;
+    let t = ((Date.now() - time)) / (roundTime * 10);
+    console.log(t);
     document.getElementById('timer').style.width = `${t}%`;
     if (t > 75) document.getElementById('timer').style.backgroundColor = '#a72b2b';
     else if (t > 50) document.getElementById('timer').style.backgroundColor = '#f5a623';

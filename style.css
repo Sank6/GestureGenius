@@ -146,12 +146,12 @@ body {
   left: 20px;
   width: 300px;
   height: 300px;
+  padding: 20px;
   background-color: #eee;
   border: 1px solid #ccc;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   overflow: hidden;
-  background-color: #62ae4e;
 }
 
 .mastered-image {
