@@ -16,16 +16,19 @@
 <body onload="load()">
     <div class="container">
         <div class="header">
-            <h2>GestureGenius</h2>
-            <p>Learn American Sign Language with ease</p>
             <p id="prediction">🤨</p>
         </div>
-        <div id="video-container">
-            <video id="video" width="720" height="560" autoplay></video>
+        <div id="video-container-container">
+            <div id="video-container">
+                <video id="video" width="800" height="600" autoplay></video>
+            </div>
+        </div>
+        <div id="score-counter">
+            0
         </div>
         <div id="reference-image">
             <span class="bg-text" id="bg-text">✓</span>
-            <img id="img" src="https://via.placeholder.com/150" alt="Reference Image">
+            <img id="img" src="https://via.placeholder.com/300" alt="Reference Image">
             <span id="overlay-text"></span>
         </div>
     </div>

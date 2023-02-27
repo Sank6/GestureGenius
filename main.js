@@ -64,6 +64,7 @@ const load = async () => {
             if (gesture === letter.toUpperCase()) {
                 letter = "?";
                 document.getElementById('reference-image').style.backgroundColor = '#62ae4e';
+                document.getElementById('score-counter').innerText = parseInt(document.getElementById('score-counter').innerText) + 1;
                 document.getElementById('img').style.opacity = 0;
                 time = Date.now();
                 setTimeout(() => {
@@ -84,7 +85,6 @@ const load = async () => {
                     letter = letters[Math.floor(Math.random() * letters.length)];
                     document.getElementById('img').src = `/images/${letter}.png`;
                     document.getElementById('overlay-text').innerText = letter.toUpperCase();
-                    document.getElementById('reference-image').style.backgroundColor = '#62ae4e';
                 }, 1000);
             }
         }
