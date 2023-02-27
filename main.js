@@ -5,6 +5,7 @@ const gestureMap = {
     23: 'W', 24: 'X', 25: 'Y', 26: 'Z'
 };
 
+const ding = new Audio('/ding.mp3');
 const letters = 'abcdefghijklmnopqrstuvwxyz';
 let letter = letters[Math.floor(Math.random() * letters.length)];
 let time = Date.now();
@@ -67,6 +68,9 @@ const load = async () => {
 }
 
 const success = () => {
+    // play ding.mp3
+    ding.play();
+
     let successLetter = letter.toUpperCase();
     if (masteryMap[successLetter] === masteryCount) masteredCard()
     masteryMap[successLetter] += 1;
