@@ -190,7 +190,7 @@ a:active {
 }
 
 #prediction {
-  display: none;
+  /* display: none; */
 }
 
 #overlay-text {
