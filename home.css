@@ -210,3 +210,15 @@ body {
   background: none;
   color: rgb(59, 59, 59);
 }
+
+.icon3 {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  text-align: center;
+  font-size: 3rem;
+  background: none;
+  color: rgb(59, 59, 59);
+}

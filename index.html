@@ -59,6 +59,9 @@
             <p>To detect hand gestures, we utilize TensorFlow.js. We extract hand coordinates using the MediaPipe hand landmark model, then run the outputs through our custom classification model. Our classification model was trained on a mash-up of ASL letter datasets, where hand positions were extracted and used to train the classifier. The resulting model runs comfortably at 30 fps and achieves approximately 84% accuracy on validation. However, since the training images used had slightly different hand positions from the label images, users may need to adjust their hand position before the app detects the gesture.</p>
             <p>We built the website from scratch using HTML/CSS/JavaScript, except for TensorFlow.js. We included placeholders for other gestures, but due to time constraints, we were unable to implement them. Some of the more complex ASL words are represented as motions rather than static gestures, and while our model can recognize motions in principle by adding an extra LSTM layer and storing the last few frames, the training datasets for dynamic gestures are much larger and require authorization before they can be downloaded.</p>
         </div>
+        <a href="https://github.com/Sank6/GestureGenius" target="_blank">
+            <i class="fa-brands fa-github icon3"></i>
+        </a>
     </div>
 </body>
 
