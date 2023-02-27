@@ -4,22 +4,29 @@
 <head>
     <meta charset="utf-8">
     <title>GestureGenius</title>
-    <script src="/main.js"></script>
-    <link rel="stylesheet" type="text/css" href="/style.css">
+    <script src="/script.js"></script>
+    <link rel="stylesheet" type="text/css" href="/home.css">
 </head>
 
-<body>
-    <div class="page">
-        <div class="page-area">
-            <div class="header">
-                <h1>GestureGenius</h1>
-                <h3>Learn American Sign Language with ease</h3>
-                <div class="button">
-                    <li><a href="/learn">Learn</a></li>
-                    <li><a href="/play">Test</a></li>
-                    <li><a href="/play">Test</a></li>
-                </div>
-            </div>
+<body onload="load()">
+    <div id="header">
+        <h1>GestureGenius</h1>
+        <h3>Learn American Sign Language with ease</h3>
+    </div>
+    <div id="section2">
+        <div id="carousel">
+            <a class="pile" id="alphabet" href="/learn">
+                <div class="card">Alphabet</div>
+            </a>
+            <a class="pile" id="greetings" href="/learn">
+                <div class="card">Greetings</div>
+            </a>
+            <a class="pile" id="numbers" href="/learn">
+                <div class="card">Numbers</div>
+            </a>
+            <a class="pile" id="colours" href="/learn">
+                <div class="card">Colours</div>
+            </a>
         </div>
     </div>
 </body>

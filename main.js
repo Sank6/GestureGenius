@@ -2,8 +2,21 @@ const gestureMap = {
     0: 'A', 1: 'B', 2: '?', 3: 'C', 4: 'D', 5: 'E', 6: 'F', 7: 'G',
     8: 'H', 9: 'I', 10: 'J', 11: 'K', 12: 'L', 13: 'M', 14: 'N', 15: 'O',
     16: 'P', 17: 'Q', 18: 'R', 19: 'S', 20: 'T', 21: 'U', 22: 'V',
-    23: 'W',24: 'X',25: 'Y', 26: 'Z'
+    23: 'W', 24: 'X', 25: 'Y', 26: 'Z'
 };
+
+const letters = 'abcdefghijklmnopqrstuvwxyz';
+let letter = letters[Math.floor(Math.random() * letters.length)];
+let time = Date.now();
+
+// Mastery map for every letter
+const masteryMap = {
+    'A': 0, 'B': 0, 'C': 0, 'D': 0, 'E': 0, 'F': 0, 'G': 0, 'H': 0, 'I': 0,
+    'J': 0, 'K': 0, 'L': 0, 'M': 0, 'N': 0, 'O': 0, 'P': 0, 'Q': 0, 'R': 0, 'S': 0,
+    'T': 0, 'U': 0, 'V': 0, 'W': 0, 'X': 0, 'Y': 0, 'Z': 0
+};
+
+const masteryCount = 2;
 
 const load = async () => {
     navigator.mediaDevices.getUserMedia({ video: true })
@@ -17,11 +30,9 @@ const load = async () => {
     const webcam = await tf.data.webcam(document.getElementById('video'));
     console.log('Webcam loaded');
 
-    const letters = 'abcdefghijklmnopqrstuvwxyz';
-    let letter = letters[Math.floor(Math.random() * letters.length)];
+
     document.getElementById('img').src = `/images/${letter}.png`;
     document.getElementById('overlay-text').innerText = letter.toUpperCase();
-    let time = Date.now();
 
     while (true) {
         const img = await webcam.capture();
@@ -32,37 +43,61 @@ const load = async () => {
             const flatLandmarks = [].concat(...landmarks);
             const gesture = await predictGesture(aslModel, flatLandmarks);
             document.getElementById('prediction').innerText = gesture;
-
-            if (gesture === letter.toUpperCase() && Date.now() - time > 500) {
-                letter = "?";
-                document.getElementById('reference-image').style.backgroundColor = '#62ae4e';
-                document.getElementById('img').style.opacity = 0;
-                time = Date.now();
-                setTimeout(() => {
-                    document.getElementById('img').style.opacity = 1;
-                    letter = letters[Math.floor(Math.random() * letters.length)];
-                    document.getElementById('img').src = `/images/${letter}.png`;
-                    document.getElementById('overlay-text').innerText = letter.toUpperCase();
-                }, 1000);
-            } else if (Date.now() - time > 10000) {
-                letter = "?";
-                document.getElementById('bg-text').innerText = "✗";
-                document.getElementById('reference-image').style.backgroundColor = '#a72b2b';
-                document.getElementById('img').style.opacity = 0;
-                time = Date.now();
-                setTimeout(() => {
-                    document.getElementById('img').style.opacity = 1;
-                    document.getElementById('bg-text').innerText = "✓";
-                    letter = letters[Math.floor(Math.random() * letters.length)];
-                    document.getElementById('img').src = `/images/${letter}.png`;
-                    document.getElementById('overlay-text').innerText = letter.toUpperCase();
-                }, 1000);
-            }
+            if (gesture === letter.toUpperCase() && Date.now() - time > 500)
+                success();
+            else if (Date.now() - time > 10000)
+                fail();
         }
-
         img.dispose();
+        timer();
         await tf.nextFrame();
     }
+}
+
+const success = () => {
+    masteryMap[letter.toUpperCase()] += 1;
+    if (masteryMap[letter.toUpperCase()] > masteryCount - 1) { masteredCard() }
+    letter = "?";
+    document.getElementById('reference-image').style.backgroundColor = '#62ae4e';
+    document.getElementById('img').style.opacity = 0;
+    time = Date.now();
+    setTimeout(() => {
+        document.getElementById('img').style.opacity = 1;
+        const deck = [];
+        for (let i = 0; i < 26; i++) {
+            for (let j = masteryMap[letters[i].toUpperCase()]; j < masteryCount; j++) deck.push(letters[i]);
+        }
+        letter = deck[Math.floor(Math.random() * deck.length)];
+        if (masteryMap[letter.toUpperCase()] < masteryCount - 1) {
+            document.getElementById('img').src = `/images/${letter}.png`;
+            document.getElementById('overlay-text').innerText = letter.toUpperCase();
+        } else if (masteryMap[letter.toUpperCase()] == masteryCount - 1) {
+            document.getElementById('img').src = `/images/blank.png`;
+            document.getElementById('reference-image').style.backgroundColor = '#eee';
+            document.getElementById('overlay-text').innerText = letter.toUpperCase();
+        }
+    }, 1000);
+}
+
+const fail = () => {
+    if (masteryMap[letter.toUpperCase()] > 0) { masteryMap[letter.toUpperCase()] -= 1; }
+    letter = "?";
+    document.getElementById('bg-text').innerText = "✗";
+    document.getElementById('reference-image').style.backgroundColor = '#a72b2b';
+    document.getElementById('img').style.opacity = 0;
+    time = Date.now();
+    setTimeout(() => {
+        document.getElementById('img').style.opacity = 1;
+        document.getElementById('bg-text').innerText = "✓";
+        letter = letters[Math.floor(Math.random() * letters.length)];
+        document.getElementById('img').src = `/images/${letter}.png`;
+        document.getElementById('overlay-text').innerText = letter.toUpperCase();
+    }, 1000);
+}
+
+const masteredCard = () => {
+    document.getElementById('mastered-image').src = `/images/${letter}.png`;
+    document.getElementById('overlay-text').innerText = letter.toUpperCase();
 }
 
 const predictGesture = async (model, hand) => {
@@ -70,4 +105,12 @@ const predictGesture = async (model, hand) => {
     const max = prediction.indexOf(Math.max(...prediction));
     const gesture = gestureMap[max];
     return gesture;
+}
+
+const timer = () => {
+    let t = ((Date.now() - time)) / 100;
+    document.getElementById('timer').style.width = `${t}%`;
+    if (t > 75) document.getElementById('timer').style.backgroundColor = '#a72b2b';
+    else if (t > 50) document.getElementById('timer').style.backgroundColor = '#f5a623';
+    else document.getElementById('timer').style.backgroundColor = '#62ae4e';
 }
