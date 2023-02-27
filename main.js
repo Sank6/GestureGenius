@@ -1,42 +1,14 @@
 const gestureMap = {
-    0: 'A',
-    1: 'B',
-    2: '',
-    3: 'C',
-    4: 'D',
-    5: 'E',
-    6: 'F',
-    7: 'G',
-    8: 'H',
-    9: 'I',
-    10: 'J',
-    11: 'K',
-    12: 'L',
-    13: 'M',
-    14: 'N',
-    15: 'O',
-    16: 'P',
-    17: 'Q',
-    18: 'R',
-    19: 'S',
-    20: 'T',
-    21: 'U',
-    22: 'V',
-    23: 'W',
-    24: 'X',
-    25: 'Y',
-    26: 'Z'
+    0: 'A', 1: 'B', 2: '', 3: 'C', 4: 'D', 5: 'E', 6: 'F', 7: 'G',
+    8: 'H', 9: 'I', 10: 'J', 11: 'K', 12: 'L', 13: 'M', 14: 'N', 15: 'O',
+    16: 'P', 17: 'Q', 18: 'R', 19: 'S', 20: 'T', 21: 'U', 22: 'V',
+    23: 'W',24: 'X',25: 'Y', 26: 'Z'
 };
 
 const load = async () => {
     navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-            const video = document.getElementById('video');
-            video.srcObject = stream;
-        })
-        .catch(error => {
-            console.log('Unable to access camera:', error);
-        });
+        .then(stream => document.getElementById('video').srcObject = stream)
+        .catch(console.error);
 
     const handposeModel = await handpose.load();
     console.log('Handpose Model loaded');
@@ -61,10 +33,9 @@ const load = async () => {
             const gesture = await predictGesture(aslModel, flatLandmarks);
             document.getElementById('prediction').innerText = gesture;
 
-            if (gesture === letter.toUpperCase()) {
+            if (gesture === letter.toUpperCase() && Date.now() - time > 500) {
                 letter = "?";
                 document.getElementById('reference-image').style.backgroundColor = '#62ae4e';
-                document.getElementById('score-counter').innerText = parseInt(document.getElementById('score-counter').innerText) + 1;
                 document.getElementById('img').style.opacity = 0;
                 time = Date.now();
                 setTimeout(() => {
@@ -76,7 +47,7 @@ const load = async () => {
             } else if (Date.now() - time > 10000) {
                 letter = "?";
                 document.getElementById('bg-text').innerText = "✗";
-                document.getElementById('reference-image').style.backgroundColor = 'red';
+                document.getElementById('reference-image').style.backgroundColor = '#a72b2b';
                 document.getElementById('img').style.opacity = 0;
                 time = Date.now();
                 setTimeout(() => {

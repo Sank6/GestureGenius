@@ -80,8 +80,8 @@ body {
 
 #score-counter {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: calc(50% - 200px);
+  transform: translateY(-50%);
   background-color: rgba(80, 86, 116, 0.2);
   width: 260px;
   border-radius: 10px;
@@ -93,9 +93,14 @@ body {
   font-size: 1rem;
 }
 
+#score-counter {
+  right: 20px;
+}
+
 #reference-image {
   position: absolute;
-  top: 100px;
+  top: 50%;
+  transform: translateY(-50%);
   right: 20px;
   width: 300px;
   height: 300px;
@@ -162,6 +167,26 @@ a:hover {
 a:active {
   background-color: #505674;
   color: #f5f5f5;
+}
+
+#back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 80px;
+  text-align: center;
+  font-size: 1rem;
+  background: #f5f5f5;
+  color:rgb(59, 59, 59);
+  transition: 200ms ease-in-out left;
+}
+
+#back * {
+  font-size: 3rem;
+}
+
+#back:hover {
+  left: 5px;
 }
 
 #prediction {
