@@ -1,5 +1,5 @@
 const gestureMap = {
-    0: 'A', 1: 'B', 2: '_', 3: 'C', 4: 'D', 5: 'E', 6: 'F', 7: 'G',
+    0: 'A', 1: 'B', 2: '?', 3: 'C', 4: 'D', 5: 'E', 6: 'F', 7: 'G',
     8: 'H', 9: 'I', 10: 'J', 11: 'K', 12: 'L', 13: 'M', 14: 'N', 15: 'O',
     16: 'P', 17: 'Q', 18: 'R', 19: 'S', 20: 'T', 21: 'U', 22: 'V',
     23: 'W', 24: 'X', 25: 'Y', 26: 'Z'
@@ -8,8 +8,6 @@ const gestureMap = {
 const letters = 'abcdefghijklmnopqrstuvwxyz';
 let letter = letters[Math.floor(Math.random() * letters.length)];
 let time = Date.now();
-let totalCorrect = 0;
-let total = 0;
 
 // Mastery map for every letter
 const masteryMap = {
@@ -17,20 +15,41 @@ const masteryMap = {
     'J': 0, 'K': 0, 'L': 0, 'M': 0, 'N': 0, 'O': 0, 'P': 0, 'Q': 0, 'R': 0, 'S': 0,
     'T': 0, 'U': 0, 'V': 0, 'W': 0, 'X': 0, 'Y': 0, 'Z': 0
 };
-const masteryCount = 2;
+const masteryCount = 0;
 let roundTime = 10; // second
 let paused = null;
+let username = "";
+let usernamePos = 0;
+
+let total = 0;
+let totalCorrect = 0;
 
 const pause = () => {
-    if (paused === false || paused === null) {
+    if (username == "") {
+        inputtedName = document.getElementById('username').value;
+        if (inputtedName !== "") {
+            username = inputtedName;
+            document.getElementById('username').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('start').innerText = 'Pause';
+            paused = false;
+            letter = username[usernamePos].toLowerCase();
+            document.getElementById('img').src = `/images/blank.png`;
+            document.getElementById('overlay-text').innerText = letter.toUpperCase();
+            time = Date.now();
+        }
+    } else if (paused === false || paused === null) {
         document.getElementById('overlay').style.display = 'none';
         document.getElementById('start').innerText = 'Pause';
+        paused = false;
     } else {
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('start').innerText = 'Resume';
         paused = true;
     }
 }
+
+
 
 const load = async () => {
     const handposeModel = await handpose.load();
@@ -70,8 +89,6 @@ const success = () => {
     let successLetter = letter.toUpperCase();
     if (masteryMap[successLetter] === masteryCount) masteredCard()
     masteryMap[successLetter] += 1;
-    totalCorrect++;
-    total++;
     letter = "?";
     document.getElementById('reference-image').style.backgroundColor = '#62ae4e';
     document.getElementById('img').style.opacity = 0;
@@ -79,12 +96,11 @@ const success = () => {
     time = Date.now();
     setTimeout(() => {
         document.getElementById('img').style.opacity = 1;
-        const deck = [];
-        for (let i = 0; i < 26; i++) {
-            for (let j = masteryMap[letters[i].toUpperCase()]; j <= masteryCount; j++) deck.push(letters[i]);
-        }
-        if (deck.length === 0) return location.href = `/end?accuracy=${(totalCorrect / total) * 100}`
-        letter = deck[Math.floor(Math.random() * deck.length)];
+        usernamePos++;
+        total++;
+        totalCorrect++;
+        if (usernamePos >= username.length) return location.href = `/end?accuracy=${(totalCorrect / total) * 100}`
+        letter = username[usernamePos].toLowerCase();
         time = Date.now();
         if (masteryMap[letter.toUpperCase()] < masteryCount) { // Show the next letter
             document.getElementById('img').src = `/images/${letter}.png`;
@@ -99,7 +115,6 @@ const success = () => {
 
 const fail = () => {
     if (masteryMap[letter.toUpperCase()] > 0) masteryMap[letter.toUpperCase()] -= 1;
-    total++;
     letter = "?";
     document.getElementById('bg-text').innerText = "✗";
     document.getElementById('reference-image').style.backgroundColor = '#a72b2b';
@@ -107,15 +122,19 @@ const fail = () => {
     time = Date.now();
     setTimeout(() => {
         document.getElementById('img').style.opacity = 1;
-        const deck = [];
-        for (let i = 0; i < 26; i++) {
-            for (let j = masteryMap[letters[i].toUpperCase()]; j <= masteryCount; j++) deck.push(letters[i]);
-        }
-        if (deck.length === 0) return location.href = `/end?accuracy=${(totalCorrect / total) * 100}`
-        letter = deck[Math.floor(Math.random() * deck.length)];
-        document.getElementById('img').src = `/images/${letter}.png`;
-        document.getElementById('overlay-text').innerText = letter.toUpperCase();
+        usernamePos++;
+        total++;
+        if (usernamePos >= username.length) return location.href = `/end?accuracy=${(totalCorrect / total) * 100}`
+        letter = username[usernamePos].toLowerCase();
         time = Date.now();
+        if (masteryMap[letter.toUpperCase()] < masteryCount) { // Show the next letter
+            document.getElementById('img').src = `/images/${letter}.png`;
+            document.getElementById('overlay-text').innerText = letter.toUpperCase();
+        } else if (masteryMap[letter.toUpperCase()] === masteryCount) {
+            document.getElementById('img').src = `/images/blank.png`;
+            document.getElementById('reference-image').style.backgroundColor = '#eee';
+            document.getElementById('overlay-text').innerText = letter.toUpperCase();
+        } else alert("AAAAA");
     }, 1000);
 }
 

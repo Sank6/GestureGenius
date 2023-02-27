@@ -6,6 +6,7 @@
     <title>GestureGenius</title>
     <script src="/script.js"></script>
     <link rel="stylesheet" type="text/css" href="/home.css">
+    <script src="https://kit.fontawesome.com/7648d40860.js" crossorigin="anonymous"></script>
 </head>
 
 <body onload="load()">
@@ -14,26 +15,48 @@
         <h3>Learn American Sign Language with ease</h3>
         <a class="about" href="#section3">About</a>
     </div>
+    <a href="#section2"><i class="fa-regular fa-hand-point-down icon" id="icon"></i></a>
     <div id="section2">
         <div id="carousel">
             <a class="pile" id="alphabet" href="/learn">
-                <div class="card">Alphabet</div>
+                <div class="card">
+                    Learn the Alphabet
+                    <i class="fa-solid fa-arrow-down-a-z icon2"></i>
+                </div>
+            </a>
+            <a class="pile" id="name" href="/name">
+                <div class="card">
+                    Spell your Name
+                    <i class="fa-solid fa-signature icon2"></i>
+                </div>
+                </i>
             </a>
             <a class="pile" id="greetings" href="/learn">
-                <div class="card">Greetings</div>
+                <div class="card">
+                    Greetings (Soon™)
+                    <i class="fa-regular fa-handshake icon2"></i>
+                </div>
+                </i>
             </a>
             <a class="pile" id="numbers" href="/learn">
-                <div class="card">Numbers</div>
-            </a>
-            <a class="pile" id="colours" href="/learn">
-                <div class="card">Colours</div>
+                <div class="card">
+                    Numbers (Soon™)
+                    <i class="fa-solid fa-arrow-down-1-9 icon2"></i>
+                </div>
             </a>
         </div>
     </div>
     <div id="section3">
+        <h1>Gesture Genius</h1>
         <div id="section3-text">
-            <h2>About GestureGenius<h2>
-            <h3>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</h3>
+            <ul>
+            <p>Gesture Genius is our submission for BrisHack 2023, a web application designed to assist people in learning American Sign Language. The app can also be extended to include additional words and various sign languages, depending on the data available. Currently, there are two modes available in the app:</p>
+            <ul>
+              <li>A learning mode that displays flashcards showing letters and their corresponding gestures on the screen, requiring the user to replicate the gesture. Once the user has learned the gesture, only the letter is displayed to test their memory.</li>
+              <li>A typing mode that helps users learn how to signal their name without any assistance.</li>
+            </ul>
+            <p>To detect hand gestures, we utilize TensorFlow.js. We extract hand coordinates using the MediaPipe hand landmark model, then run the outputs through our custom classification model. Our classification model was trained on a mash-up of ASL letter datasets, where hand positions were extracted and used to train the classifier. The resulting model runs comfortably at 30 fps and achieves approximately 84% accuracy on validation. However, since the training images used had slightly different hand positions from the label images, users may need to adjust their hand position before the app detects the gesture.</p>
+            <p>We built the website from scratch using HTML/CSS/JavaScript, except for TensorFlow.js. We included placeholders for other gestures, but due to time constraints, we were unable to implement them. Some of the more complex ASL words are represented as motions rather than static gestures, and while our model can recognize motions in principle by adding an extra LSTM layer and storing the last few frames, the training datasets for dynamic gestures are much larger and require authorization before they can be downloaded.</p>
         </div>
     </div>
 </body>

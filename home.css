@@ -44,17 +44,28 @@ body {
   top: 200vh;
   width: 100vw;
   height: 100%;
-  background-color: #f5f5f5;
   font-size: 1rem;
   text-align: center;
+  background: #f5f5f5;
+  background-image: radial-gradient(black 1px, transparent 0);
+  background-size: 40px 40px;
+  background-position: -19px -19px;
+}
+
+#section3 h1 {
+  font-size: 2rem;
+  margin-top: 50px;
 }
 
 #section3-text {
   padding: 40px;
   width: 95%;
-  height: 100%;
   font-size: 1rem;
-  text-align: center;
+  margin-top: 50px;
+  text-align: left;
+  width: 60%;
+  margin-left: 20%;
+  background-color: #f5f5f5;
 }
 
 #carousel {
@@ -140,4 +151,47 @@ body {
 .about:active {
   background-color: #505674;
   color: #f5f5f5;
+}
+
+.icon {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    text-align: center;
+    font-size: 3rem;
+    background: none;
+    color: rgb(59, 59, 59);
+    transition: 0.5s;
+    animation: bob 1s infinite;
+}
+
+.icon:hover {
+  animation: none;
+}
+
+@keyframes bob {
+  0% {
+    bottom: 50px;
+  }
+  50% {
+    bottom: 55px;
+  }
+  100% {
+    bottom: 50px;
+  }
+}
+
+
+.icon2 {
+  position: absolute;
+  bottom: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  text-align: center;
+  font-size: 2rem;
+  background: none;
+  color: rgb(59, 59, 59);
 }

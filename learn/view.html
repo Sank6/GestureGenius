@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>GestureGenius</title>
+    <script src="/script.js"></script>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="stylesheet" type="text/css" href="/home.css">
+    <script src="https://kit.fontawesome.com/7648d40860.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+        <div id="section3-text">
+            <h1>ASL Alphabet</h1>
+            <a id="back" href="/learn">
+                <i class="fa-regular fa-hand-point-left"></i>
+            </a>
+        </div>
+    <div id="alphabet">
+    </div>
+        
+<script>
+    let alphabet = `abcdefghijklmnopqrstuvwxyz`;
+    let alphabetArray = alphabet.split('');
+    let alphabetDiv = document.getElementById('alphabet');
+    for (let i = 0; i < alphabetArray.length; i++) {
+        let letter = alphabetArray[i];
+        let letterDiv = document.createElement('div');
+        letterDiv.className = 'letter';
+        letterDiv.innerHTML = `
+        <p>${letter}</p>
+        <img src="/images/${letter}.png" alt="${letter}">
+        `;
+        alphabetDiv.appendChild(letterDiv);
+    }
+</script>
+<style>
+    h1 {
+        text-align: center;
+    }
+    #alphabet {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 50px;
+    }
+    p {
+        font-size: 2rem;
+        text-transform: capitalize;
+        width: calc(100% - 2rem - 4px);
+        text-align: center;
+        background-color: #fff;
+        overflow: hidden;
+    }
+    .letter {
+        width: 200px;
+        height: 200px;
+        margin: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .letter img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+</style>
+</body>
+</html>

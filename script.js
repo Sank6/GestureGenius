@@ -5,6 +5,8 @@ const scroll = () => {
         document.getElementById('header').style.left = `calc(50% - ${window.scrollY * 0.6}px)`;
         document.getElementById('header').style.transform = `translate(-50%, -50%) scale(${1 - window.scrollY * 0.0005})`;
         document.getElementById('carousel').style.left = window.innerHeight - window.scrollY + 'px';
+
+        document.getElementById('icon').style.opacity = 1 - window.scrollY * 0.004;
     }
 
     if (window.scrollY > window.innerHeight) {
