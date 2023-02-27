@@ -72,7 +72,7 @@ const load = async () => {
                     document.getElementById('img').src = `/images/${letter}.png`;
                     document.getElementById('overlay-text').innerText = letter.toUpperCase();
                 }, 1000);
-            } else if (Date.now() - time > 5000) {
+            } else if (Date.now() - time > 10000) {
                 letter = "?";
                 document.getElementById('bg-text').innerText = "✗";
                 document.getElementById('reference-image').style.backgroundColor = 'red';
@@ -81,10 +81,10 @@ const load = async () => {
                 setTimeout(() => {
                     document.getElementById('img').style.opacity = 1;
                     document.getElementById('bg-text').innerText = "✓";
-                    document.getElementById('reference-image').style.backgroundColor = '#62ae4e';
                     letter = letters[Math.floor(Math.random() * letters.length)];
                     document.getElementById('img').src = `/images/${letter}.png`;
                     document.getElementById('overlay-text').innerText = letter.toUpperCase();
+                    document.getElementById('reference-image').style.backgroundColor = '#62ae4e';
                 }, 1000);
             }
         }
