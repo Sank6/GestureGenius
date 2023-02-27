@@ -7,6 +7,10 @@ body,
   overflow-x: hidden;
 }
 
+*, html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: #f5f5f5;
   background-image: radial-gradient(black 1px, transparent 0);
@@ -19,7 +23,6 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #f5f5f5;
   margin: 0;
   text-align: center;
   margin-bottom: 20px;
@@ -34,6 +37,24 @@ body {
   width: 100vw;
   height: 100%;
   background-color: #f5f5f5;
+}
+
+#section3 {
+  position: absolute;
+  top: 200vh;
+  width: 100vw;
+  height: 100%;
+  background-color: #f5f5f5;
+  font-size: 1rem;
+  text-align: center;
+}
+
+#section3-text {
+  padding: 40px;
+  width: 95%;
+  height: 100%;
+  font-size: 1rem;
+  text-align: center;
 }
 
 #carousel {
@@ -93,5 +114,30 @@ body {
     border-radius: 10px;
     width: 90%;
     height: 90%;
-    background-color: #f5f5f5;
+    background: #f5f5f5;
+    background-image: radial-gradient(#7681b3 1px, transparent 0);
+    background-size: 20px 20px;
+    background-position: -8px -8px;
+}
+
+.about, .about:visited {
+  font-size: 20px;
+  display: inline-block;
+  background-color: #7681b3;
+  color: #f5f5f5;
+  text-decoration: none;
+  padding: 0.5rem;
+  margin: 1rem;
+  width: 150px;
+  border-radius: 30px;
+}
+
+.about:hover {
+  background-color: #66709c;
+  color: #f5f5f5;
+}
+
+.about:active {
+  background-color: #505674;
+  color: #f5f5f5;
 }

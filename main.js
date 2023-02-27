@@ -25,6 +25,7 @@ const load = async () => {
 
     const handposeModel = await handpose.load();
     console.log('Handpose Model loaded');
+
     const aslModel = await tf.loadLayersModel('/model/model.json');
     console.log('ASL Model loaded');
     const webcam = await tf.data.webcam(document.getElementById('video'));
@@ -40,7 +41,7 @@ const load = async () => {
 
         if (predictions.length > 0) {
             const landmarks = predictions[0].landmarks;
-            const flatLandmarks = [].concat(...landmarks);
+            const flatLandmarks = [].concat(...landmarks)
             const gesture = await predictGesture(aslModel, flatLandmarks);
             document.getElementById('prediction').innerText = gesture;
             if (gesture === letter.toUpperCase() && Date.now() - time > 500)
@@ -60,6 +61,7 @@ const success = () => {
     letter = "?";
     document.getElementById('reference-image').style.backgroundColor = '#62ae4e';
     document.getElementById('img').style.opacity = 0;
+    document.getElementById('bg-text').innerText = "✓";
     time = Date.now();
     setTimeout(() => {
         document.getElementById('img').style.opacity = 1;
@@ -68,10 +70,10 @@ const success = () => {
             for (let j = masteryMap[letters[i].toUpperCase()]; j < masteryCount; j++) deck.push(letters[i]);
         }
         letter = deck[Math.floor(Math.random() * deck.length)];
-        if (masteryMap[letter.toUpperCase()] < masteryCount - 1) {
+        if (masteryMap[letter.toUpperCase()] < masteryCount) { // Show the next letter
             document.getElementById('img').src = `/images/${letter}.png`;
             document.getElementById('overlay-text').innerText = letter.toUpperCase();
-        } else if (masteryMap[letter.toUpperCase()] == masteryCount - 1) {
+        } else {
             document.getElementById('img').src = `/images/blank.png`;
             document.getElementById('reference-image').style.backgroundColor = '#eee';
             document.getElementById('overlay-text').innerText = letter.toUpperCase();
@@ -88,16 +90,16 @@ const fail = () => {
     time = Date.now();
     setTimeout(() => {
         document.getElementById('img').style.opacity = 1;
-        document.getElementById('bg-text').innerText = "✓";
         letter = letters[Math.floor(Math.random() * letters.length)];
         document.getElementById('img').src = `/images/${letter}.png`;
         document.getElementById('overlay-text').innerText = letter.toUpperCase();
     }, 1000);
 }
 
+let masteredCount = 0;
 const masteredCard = () => {
-    document.getElementById('mastered-image').src = `/images/${letter}.png`;
-    document.getElementById('overlay-text').innerText = letter.toUpperCase();
+    masteredCount ++;
+    document.getElementById('mastered-images-container').innerHTML += `<img src="/images/${letter}.png" class="mastered-image" style="top: calc(40% - ${masteredCount * 5}px)">`;
 }
 
 const predictGesture = async (model, hand) => {

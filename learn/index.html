@@ -5,11 +5,9 @@
     <meta charset="utf-8">
     <title>GestureGenius</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <script src="https://unpkg.com/@tensorflow/tfjs-converter@2.1.0/dist/tf-converter.js"></script>
     <script src="https://unpkg.com/@tensorflow-models/handpose@0.0.6/dist/handpose.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands"> </script>
     <script src="https://kit.fontawesome.com/7648d40860.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@icon/themify-icons@1.0.1-alpha.3/themify-icons.min.css">
     <script src="/main.js"></script>
     <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
@@ -30,8 +28,10 @@
             <img id="img" src="/images/blank.png" alt="Reference Image">
             <span id="overlay-text"></span>
         </div>
-        <img id="mastered-image" src="/images/blank.png" alt="Mastered Image">
-        </img>
+        <div id="mastered-images-container">
+        </div>
+        <div id="mastered-label">Mastered</div>
+        <div id="learning-label">Learning</div>
         <a id="back" href="/">
             <i class="fa-regular fa-hand-point-left"></i>
         </a>
