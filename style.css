@@ -1,0 +1,58 @@
+body {
+  font-family: sans-serif;
+}
+
+.pages{
+  height: 100px
+}
+
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.header p {
+  font-size: 24px;
+  color: #666;
+}
+
+#video-container {
+  position: relative;
+}
+
+#video {
+  display: block;
+  margin: 0 auto;
+}
+
+#reference-image {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 200px;
+  height: 200px;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#reference-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
