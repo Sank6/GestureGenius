@@ -49,6 +49,7 @@ const load = async () => {
     let letter = letters[Math.floor(Math.random() * letters.length)];
     document.getElementById('img').src = `/images/${letter}.png`;
     document.getElementById('overlay-text').innerText = letter.toUpperCase();
+    let time = Date.now();
 
     while (true) {
         const img = await webcam.capture();
@@ -59,20 +60,33 @@ const load = async () => {
             const flatLandmarks = [].concat(...landmarks);
             const gesture = await predictGesture(aslModel, flatLandmarks);
             document.getElementById('prediction').innerText = gesture;
-        }
-        img.dispose();
-        
-        if (document.getElementById('prediction').innerText === letter.toUpperCase()) {
-            letter = "";
-            document.getElementById('img').style.opacity = 0;
-            setTimeout(() => {
-                document.getElementById('img').style.opacity = 1;
-                letter = letters[Math.floor(Math.random() * letters.length)];
-                document.getElementById('img').src = `/images/${letter}.png`;
-                document.getElementById('overlay-text').innerText = letter.toUpperCase();
-            }, 1000);
+
+            if (gesture === letter.toUpperCase()) {
+                letter = "?";
+                document.getElementById('img').style.opacity = 0;
+                time = Date.now();
+                setTimeout(() => {
+                    document.getElementById('img').style.opacity = 1;
+                    letter = letters[Math.floor(Math.random() * letters.length)];
+                    document.getElementById('img').src = `/images/${letter}.png`;
+                    document.getElementById('overlay-text').innerText = letter.toUpperCase();
+                }, 1000);
+            } else if (Date.now() - time > 5000) {
+                letter = "?";
+                document.getElementById('reference-image').style.backgroundColor = 'red';
+                document.getElementById('img').style.opacity = 0;
+                time = Date.now();
+                setTimeout(() => {
+                    document.getElementById('img').style.opacity = 1;
+                    document.getElementById('reference-image').style.backgroundColor = '62ae4e';
+                    letter = letters[Math.floor(Math.random() * letters.length)];
+                    document.getElementById('img').src = `/images/${letter}.png`;
+                    document.getElementById('overlay-text').innerText = letter.toUpperCase();
+                }, 1000);
+            }
         }
 
+        img.dispose();
         await tf.nextFrame();
     }
 }
