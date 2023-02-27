@@ -73,13 +73,13 @@ const success = () => {
         }
         letter = deck[Math.floor(Math.random() * deck.length)];
         time = Date.now();
-        if (masteryMap[successLetter] < masteryCount) { // Show the next letter
+        if (masteryMap[letter.toUpperCase()] < masteryCount) { // Show the next letter
             document.getElementById('img').src = `/images/${letter}.png`;
-            document.getElementById('overlay-text').innerText = successLetter;
-        } else if (masteryMap[successLetter] === masteryCount) {
+            document.getElementById('overlay-text').innerText = letter.toUpperCase();
+        } else if (masteryMap[letter.toUpperCase()] === masteryCount) {
             document.getElementById('img').src = `/images/blank.png`;
             document.getElementById('reference-image').style.backgroundColor = '#eee';
-            document.getElementById('overlay-text').innerText = successLetter;
+            document.getElementById('overlay-text').innerText = letter.toUpperCase();
         } else alert("AAAAA");
     }, 1000);
 }
