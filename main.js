@@ -48,7 +48,7 @@ const load = async () => {
     const letters = 'abcdefghijklmnopqrstuvwxyz';
     let letter = letters[Math.floor(Math.random() * letters.length)];
     document.getElementById('img').src = `/images/${letter}.png`;
-    console.log(`/images/${letter}.png`);
+    document.getElementById('overlay-text').innerText = letter.toUpperCase();
 
     while (true) {
         const img = await webcam.capture();
@@ -69,6 +69,7 @@ const load = async () => {
                 document.getElementById('img').style.opacity = 1;
                 letter = letters[Math.floor(Math.random() * letters.length)];
                 document.getElementById('img').src = `/images/${letter}.png`;
+                document.getElementById('overlay-text').innerText = letter.toUpperCase();
             }, 1000);
         }
 
