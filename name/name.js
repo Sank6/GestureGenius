@@ -104,14 +104,11 @@ const success = () => {
         if (usernamePos >= username.length) return location.href = `/end?accuracy=${(totalCorrect / total) * 100}`
         letter = username[usernamePos].toLowerCase();
         time = Date.now();
-        if (masteryMap[letter.toUpperCase()] < masteryCount) { // Show the next letter
-            document.getElementById('img').src = `/images/${letter}.png`;
-            document.getElementById('overlay-text').innerText = letter.toUpperCase();
-        } else if (masteryMap[letter.toUpperCase()] === masteryCount) {
+        
             document.getElementById('img').src = `/images/blank.png`;
             document.getElementById('reference-image').style.backgroundColor = '#eee';
             document.getElementById('overlay-text').innerText = letter.toUpperCase();
-        } else alert("AAAAA");
+    
     }, 1000);
 }
 
@@ -129,14 +126,11 @@ const fail = () => {
         if (usernamePos >= username.length && total !== 0) return location.href = `/end?accuracy=${(totalCorrect / total) * 100}`
         letter = username[usernamePos].toLowerCase();
         time = Date.now();
-        if (masteryMap[letter.toUpperCase()] < masteryCount) { // Show the next letter
-            document.getElementById('img').src = `/images/${letter}.png`;
-            document.getElementById('overlay-text').innerText = letter.toUpperCase();
-        } else if (masteryMap[letter.toUpperCase()] === masteryCount) {
+    
             document.getElementById('img').src = `/images/blank.png`;
             document.getElementById('reference-image').style.backgroundColor = '#eee';
             document.getElementById('overlay-text').innerText = letter.toUpperCase();
-        } else alert("AAAAA");
+    
     }, 1000);
 }
 
