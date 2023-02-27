@@ -126,7 +126,7 @@ const fail = () => {
         document.getElementById('img').style.opacity = 1;
         usernamePos++;
         total++;
-        if (usernamePos >= username.length) return location.href = `/end?accuracy=${(totalCorrect / total) * 100}`
+        if (usernamePos >= username.length && total !== 0) return location.href = `/end?accuracy=${(totalCorrect / total) * 100}`
         letter = username[usernamePos].toLowerCase();
         time = Date.now();
         if (masteryMap[letter.toUpperCase()] < masteryCount) { // Show the next letter
