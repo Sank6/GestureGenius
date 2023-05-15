@@ -16,9 +16,10 @@ const masteryMap = {
     'J': 0, 'K': 0, 'L': 0, 'M': 0, 'N': 0, 'O': 0, 'P': 0, 'Q': 0, 'R': 0, 'S': 0,
     'T': 0, 'U': 0, 'V': 0, 'W': 0, 'X': 0, 'Y': 0, 'Z': 0
 };
-const masteryCount = 0;
+let masteryCount = 2;
 let roundTime = 10; // second
-let paused = null;
+let updateTimer = false;
+let paused = true;
 let username = "";
 let usernamePos = 0;
 
@@ -26,28 +27,23 @@ let total = 0;
 let totalCorrect = 0;
 
 const pause = () => {
-    if (username == "") {
-        inputtedName = document.getElementById('username').value;
-        if (inputtedName !== "") {
+    document.getElementById('name').style.display = 'none';
+    document.getElementById('start').innerText = 'Resume';
+    if (paused) {
+        document.getElementById('overlay').style.display = 'none';
+        inputtedName = document.getElementById('name').value;
+        if (username === "" && inputtedName !== "") {
             username = inputtedName;
-            document.getElementById('username').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-            document.getElementById('start').innerText = 'Pause';
-            paused = false;
             letter = username[usernamePos].toLowerCase();
             document.getElementById('img').src = `/images/blank.png`;
             document.getElementById('overlay-text').innerText = letter.toUpperCase();
-            time = Date.now();
         }
-    } else if (paused === false || paused === null) {
-        document.getElementById('overlay').style.display = 'none';
-        document.getElementById('start').innerText = 'Pause';
-        paused = false;
-    } else {
-        document.getElementById('overlay').style.display = 'block';
-        document.getElementById('start').innerText = 'Resume';
-        paused = true;
     }
+    paused = !paused;
+    updateTimer = !paused;
+    console.log('Paused:', paused);
+    console.log('Update Timer:', updateTimer);
+    time = Date.now();
 }
 
 
@@ -81,8 +77,8 @@ const load = async () => {
             }
             img.dispose();
             timer();
-            await tf.nextFrame();
         }
+        await tf.nextFrame();
     }
 }
 
@@ -104,11 +100,11 @@ const success = () => {
         if (usernamePos >= username.length) return location.href = `/end?accuracy=${(totalCorrect / total) * 100}`
         letter = username[usernamePos].toLowerCase();
         time = Date.now();
-        
-            document.getElementById('img').src = `/images/blank.png`;
-            document.getElementById('reference-image').style.backgroundColor = '#eee';
-            document.getElementById('overlay-text').innerText = letter.toUpperCase();
-    
+
+        document.getElementById('img').src = `/images/blank.png`;
+        document.getElementById('reference-image').style.backgroundColor = '#eee';
+        document.getElementById('overlay-text').innerText = letter.toUpperCase();
+
     }, 1000);
 }
 
@@ -126,11 +122,11 @@ const fail = () => {
         if (usernamePos >= username.length && total !== 0) return location.href = `/end?accuracy=${(totalCorrect / total) * 100}`
         letter = username[usernamePos].toLowerCase();
         time = Date.now();
-    
-            document.getElementById('img').src = `/images/blank.png`;
-            document.getElementById('reference-image').style.backgroundColor = '#eee';
-            document.getElementById('overlay-text').innerText = letter.toUpperCase();
-    
+
+        document.getElementById('img').src = `/images/blank.png`;
+        document.getElementById('reference-image').style.backgroundColor = '#eee';
+        document.getElementById('overlay-text').innerText = letter.toUpperCase();
+
     }, 1000);
 }
 
@@ -148,6 +144,7 @@ const predictGesture = async (model, hand) => {
 }
 
 const timer = () => {
+    if (!updateTimer) return;
     let t = ((Date.now() - time)) / (roundTime * 10);
     document.getElementById('timer').style.width = `${t}%`;
     if (t > 75) document.getElementById('timer').style.backgroundColor = '#a72b2b';

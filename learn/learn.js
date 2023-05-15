@@ -18,19 +18,30 @@ const masteryMap = {
     'J': 0, 'K': 0, 'L': 0, 'M': 0, 'N': 0, 'O': 0, 'P': 0, 'Q': 0, 'R': 0, 'S': 0,
     'T': 0, 'U': 0, 'V': 0, 'W': 0, 'X': 0, 'Y': 0, 'Z': 0
 };
-const masteryCount = 2;
+let masteryCount = 2;
 let roundTime = 10; // second
-let paused = null;
+let paused = true;
+let updateTimer = false;
 
 const pause = () => {
-    if (paused === false || paused === null) {
-        document.getElementById('overlay').style.display = 'none';
-        document.getElementById('start').innerText = 'Pause';
-    } else {
-        document.getElementById('overlay').style.display = 'block';
-        document.getElementById('start').innerText = 'Resume';
-        paused = true;
-    }
+    document.getElementById('start').innerText = "Resume";
+    if (paused) document.getElementById('overlay').style.display = 'none';
+    else document.getElementById('overlay').style.display = 'block';
+    paused = !paused;
+    updateTimer = !paused;
+    console.log('Paused:', paused);
+    console.log('Update Timer:', updateTimer);
+    time = Date.now();
+}
+
+const changeMastery = () => {
+    masteryCount = document.getElementById('mastery').value - 1
+    console.log('Mastery Count:', masteryCount);
+}
+
+const changeRoundTime = () => {
+    roundTime = document.getElementById('roundtime').value;
+    console.log('Round Time:', roundTime);
 }
 
 const load = async () => {
@@ -44,6 +55,8 @@ const load = async () => {
 
     document.getElementById('img').src = `/images/${letter}.png`;
     document.getElementById('overlay-text').innerText = letter.toUpperCase();
+
+    document.addEventListener('keydown', (e) => { if (e.code === 'Space') pause() });
 
     while (true) {
         if (!paused) {
@@ -62,13 +75,12 @@ const load = async () => {
             }
             img.dispose();
             timer();
-            await tf.nextFrame();
         }
+        await tf.nextFrame();
     }
 }
 
 const success = () => {
-    // play ding.mp3
     ding.play();
 
     let successLetter = letter.toUpperCase();
@@ -80,7 +92,7 @@ const success = () => {
     document.getElementById('reference-image').style.backgroundColor = '#62ae4e';
     document.getElementById('img').style.opacity = 0;
     document.getElementById('bg-text').innerText = "✓";
-    time = Date.now();
+    updateTimer = false;
     setTimeout(() => {
         document.getElementById('img').style.opacity = 1;
         const deck = [];
@@ -90,6 +102,7 @@ const success = () => {
         if (deck.length === 0) return location.href = `/end?accuracy=${(totalCorrect / total) * 100}`
         letter = deck[Math.floor(Math.random() * deck.length)];
         time = Date.now();
+        updateTimer = true;
         if (masteryMap[letter.toUpperCase()] < masteryCount) { // Show the next letter
             document.getElementById('img').src = `/images/${letter}.png`;
             document.getElementById('overlay-text').innerText = letter.toUpperCase();
@@ -97,7 +110,7 @@ const success = () => {
             document.getElementById('img').src = `/images/blank.png`;
             document.getElementById('reference-image').style.backgroundColor = '#eee';
             document.getElementById('overlay-text').innerText = letter.toUpperCase();
-        } else alert("AAAAA");
+        } else console.error('Mastery count exceeded', masteryMap[letter.toUpperCase()]);
     }, 1000);
 }
 
@@ -108,7 +121,7 @@ const fail = () => {
     document.getElementById('bg-text').innerText = "✗";
     document.getElementById('reference-image').style.backgroundColor = '#a72b2b';
     document.getElementById('img').style.opacity = 0;
-    time = Date.now();
+    updateTimer = false;
     setTimeout(() => {
         document.getElementById('img').style.opacity = 1;
         const deck = [];
@@ -120,6 +133,7 @@ const fail = () => {
         document.getElementById('img').src = `/images/${letter}.png`;
         document.getElementById('overlay-text').innerText = letter.toUpperCase();
         time = Date.now();
+        updateTimer = true;
     }, 1000);
 }
 
@@ -137,6 +151,7 @@ const predictGesture = async (model, hand) => {
 }
 
 const timer = () => {
+    if (!updateTimer) return;
     let t = ((Date.now() - time)) / (roundTime * 10);
     document.getElementById('timer').style.width = `${t}%`;
     if (t > 75) document.getElementById('timer').style.backgroundColor = '#a72b2b';

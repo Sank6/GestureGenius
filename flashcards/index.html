@@ -8,15 +8,14 @@
     <script src="https://unpkg.com/@tensorflow-models/handpose@0.0.6/dist/handpose.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands"> </script>
     <script src="https://kit.fontawesome.com/7648d40860.js" crossorigin="anonymous"></script>
-    <script src="/name/name.js"></script>
+    <script src="/flashcards/flashcards.js"></script>
     <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 
 <body onload="load()">
     <div id="overlay">
         <div id="overlay-settings">
-            <input type="text" id="name" placeholder="Name" autocomplete="off">
-            <a id="start" onclick="pause()">Start</a>
+            <a id="start" href="#" onclick="pause()">Start Studying</a>
         </div>
     </div>
     </div>
@@ -24,21 +23,8 @@
         <div class="header">
             <p id="prediction">🤨</p>
         </div>
-        <div id="video-container-container" onclick="pause()">
-            <div id="video-container">
-                <video id="video" width="800" height="600" autoplay></video>
-                <div id="timer"></div>
-            </div>
+        <div class="flashcards" onclick="pause()">
         </div>
-        <div id="reference-image">
-            <span class="bg-text" id="bg-text">✓</span>
-            <img id="img" src="/images/blank.png" alt="Reference Image">
-            <span id="overlay-text"></span>
-        </div>
-        <div id="mastered-images-container">
-        </div>
-        <div id="mastered-label">Mastered</div>
-        <div id="learning-label">Learning</div>
         <a id="back" href="/">
             <i class="fa-regular fa-hand-point-left"></i>
         </a>

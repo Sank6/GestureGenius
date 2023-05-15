@@ -8,14 +8,21 @@
     <script src="https://unpkg.com/@tensorflow-models/handpose@0.0.6/dist/handpose.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands"> </script>
     <script src="https://kit.fontawesome.com/7648d40860.js" crossorigin="anonymous"></script>
-    <script src="/main.js"></script>
+    <script src="/learn//learn.js"></script>
     <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 
 <body onload="load()">
     <div id="overlay">
-        <a id="start" onclick="pause()">Start Learning</a>
-        <a id="smalllink" href="/learn/view.html">View Vocab List</a>
+        <div id="overlay-settings">
+            <label for="roundtime">Round time (s): </label>
+            <input id="roundtime" class="num-input" type="number" min="5" max="60" step="5" value="10" oninput="changeRoundtime()" />
+            <br>
+            <label for="mastery">Cards till mastery: </label>
+            <input id="mastery" class="num-input" type="number" min="2" max="10" step="1" value="3" oninput="changeMastery()" />
+            <a id="start" href="#" onclick="pause()">Start Learning</a>
+            <a id="smalllink" href="/learn/view.html">View Vocab List</a>
+        </div>
     </div>
     </div>
     <div class="container">
